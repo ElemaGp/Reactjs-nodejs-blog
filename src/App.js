@@ -16,6 +16,7 @@ import {
    and in the terminal type "npx create-react-app . " */
 
 function App() {
+  const user = false;
   return (
     <Router>
     <div className="App">
@@ -25,7 +26,19 @@ function App() {
             <Home />
           </Route>
         <Route path="/register">
-            <Register />
+            {user ? <Home /> :<Register />}
+          </Route>
+        <Route path="/login">
+            {user ? <Home /> :<Login />}
+          </Route>
+        <Route path="/write">
+            {user ? <Write /> :<Register />}
+          </Route>
+        <Route path="/settings">
+            {user? <Settings /> :<Register />}
+          </Route>
+        <Route path="/post/:postId">
+            <Single />
           </Route>
         </Switch>
         

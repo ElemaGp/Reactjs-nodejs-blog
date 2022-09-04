@@ -7,6 +7,7 @@ const userRoute = require("./routes/users");//importing the route for sending PU
 const postRoute = require("./routes/posts");//importing the route for sending POST, PUT, DELETE, GET requests for the posts 
 const categoryRoute = require("./routes/categories");//importing the route for sending POST, PUT, DELETE, GET requests for Categories (only the POST and GET request for creating and displaying all categories is available now though. I can add the other features later) 
 const multer = require("multer");
+const path = require("path");
 //yarn add express mongoose dotenv multer - installs the above packages.
 //npm init installs node
 //yarn add nodemon installs nodemon. In the node part of package.json, put "start": "nodemon index.js". Type yarn start in terminal and nodemon now watches your files consistently.
@@ -15,7 +16,7 @@ const multer = require("multer");
 
 dotenv.config(); //fires the dotenv for database protection
 app.use(express.json()); //allows the code to be able to send requests in json form to database  (so it can get a response from the database).
-
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 mongoose.connect(process.env.MONGO_URL, { //connecting mongoose to the mongodb database url (through the env which is the file where we put the url so it is protected)
     useNewUrlParser: true,

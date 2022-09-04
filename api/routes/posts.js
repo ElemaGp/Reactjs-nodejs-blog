@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 //UPDATE POST
 router.put("/:id", async (req, res) => {
     try{
-        const post = await Post.findById(req.params.id); //finding the post that has the id in the route url, and saving it in "const post". The "Post" there is the model (schema).
+        const post = await Post.findById(req.params.id); //finding the post that has the id in the route url("param") from the database, and saving it in "const post". The "Post" there is the model (schema).
         if (post.username === req.body.username) { //this means, if the username associated with the 'post' const (url route) matches the username associated with the user ...(it means it's the same username and he's the owner of the post) 
         try{
             const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
@@ -42,7 +42,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try{
         const post = await Post.findById(req.params.id); //finding the post that has the id in the route url, and saving it in "const post". The "Post" there is the model (schema).
-        if (post.username === req.body.username) { //this means, if the username associated with the 'post' const (url route) matches the username associated with the user ...(it means it's the same username and he's the owner of the post) 
+        if (post.username === req.body.username) { //this means, if the username associated with the 'post' matches with the username property we'll send along with the axios request from frontend, then that user is the owner and can delete the post. (Note that req.body simply means that the axios request from the frontend will come with the value for that. So in this case, req.body."username" means that we'll set a value for that username when sending the request from frontend with axios. (note: in the frontend, we later set the username: user.username. Meaning that this function makes sure that the post.username and user.username match, meaning that the logged in user is the author of the post and so can delete the post.) )
         try{
             await post.delete(); //deleting post
             res.status(200).json("Post has been deleted");
@@ -80,7 +80,7 @@ router.get("/", async (req, res) => {
         if(username){ //if username exists in the query...
             posts = await Post.find({username}); // "posts" will be equal to the posts by that username
         } else if (catName) { //if a category exists in the query...
-            posts = await Post.find({categories:{$in:[catName],},  //in the "Posts" model, we set categories to be an array. So this code basically says to look at the categories array and if the query contains a certain item in the array, that item shout be set equal to the post variable.
+            posts = await Post.find({categories:{$in:[catName],},  //in the "Posts" model, we set categories to be an array. So this code basically says to look at the categories array and if the query contains a certain item in the array eg music, that item shout be set equal to the post variable.
         });
         } else {
             posts = await Post.find(); //if theres no username or categories, it displays all posts

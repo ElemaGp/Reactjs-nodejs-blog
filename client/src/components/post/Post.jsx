@@ -1,23 +1,26 @@
-import "./post.css"
+import "./post.css";
+import {Link} from "react-router-dom";
 
 
 export default function Post({post}) { //accepting the "post" prop from Posts component
+  const PF = "http://localhost:5000/images/";     
   return (
     <div className="post">
-      {post.photo && (                                      //if the user uploads a photo with the post...
-        <img className="postImg" src={post.photo} alt="" />
-        )}
+      {post.photo &&                                       //IF the user uploads a photo along with the post...
+        <img className="postImg" src={PF + post.photo} alt="" />   //the "PF" is the url to the images folder here, which needs to come before the post itself. You declared the "const PF" above.
+        }
         <div className="postInfo">
-            <div className="postCats">
-                <span className="postCat">Music</span>
-                <span className="postCat">Life</span>
+            <div className="postCats"> {
+              post.categories.map(c=>( //mapping through the categories property of each post object
+                <span className="postCat">{c.name}</span>
+              ))
+            }
+            <Link to={`/post/${post._id}`} className="link">          {/*this links to the details of a specific post, like blogDetails */}
+            <span className="postTitle">{post.title} </span>         {/*the post title*/}
+            </Link>
             </div>
-            <span className="postTitle">
-                {post.title}  {/*the post title*/}
-            </span>
             <hr />
             <span className="postDate">{new Date(post.createdAt).toDateString()}</span>         {/*the timestamp*/}
-
         </div>
         <p className="postDesc">
           {post.desc}
@@ -25,4 +28,8 @@ export default function Post({post}) { //accepting the "post" prop from Posts co
     </div>
   )
 }
+            
+
         
+                
+                

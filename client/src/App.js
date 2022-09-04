@@ -11,12 +11,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "./context/Context";
 
 /* I like the simple way he created the project. Just create your folder in Documents, open the folder in vscode
    and in the terminal type "npx create-react-app . " */
 
 function App() {
-  const user = false;
+  const {user} = useContext(Context);
   return (
     <Router>
     <div className="App">

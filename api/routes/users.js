@@ -6,13 +6,13 @@ const bcrypt = require("bcrypt"); //for hashing password
 //UPDATE USER INFORMATION
 router.put("/:id", async (req, res) => {
     if(req.body.userId === req.params.id) {//this means that if the id property in that user's user database object matches the id parameter on the url...(essentially meaning that it is that user's account...)
-        if(req.body.password){ //this means, if the user has a password...
+        if(req.body.password){ //this means, if the axios request from frontend contains a password...
             const salt = await bcrypt.genSalt(10);  //creating salt 
             req.body.password = await bcrypt.hash(req.body.password, salt); //hashing the password and salting it. Now we've gotten the user's password, salted and hashed it.
         }
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id,{ //updates the info of the user that has the id
-          $set: req.body, 
+        const updatedUser = await User.findByIdAndUpdate(req.params.id,{ //function to update the info of the user that has the id
+          $set: req.body,  //sets/updates the user information to be what was sent in the body of the request
         },{new:true});
         res.status(200).json(updatedUser);
     } catch (err) {
